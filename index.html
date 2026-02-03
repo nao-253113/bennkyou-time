@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>勉強タイマー</title>
+  <title>勉強時間管理</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,10 +18,20 @@
     <input type="number" id="duration" value="25">
   </label>
 
+  <label>
+    勉強内容：
+    <input type="text" id="studyTitle" placeholder="例：英語">
+  </label>
+
   <button id="setTimer">タイマーを設定</button>
 
   <h2 id="status">未設定</h2>
   <h2 id="countdown">00:00</h2>
+
+  <hr>
+
+  <h2>📅 勉強カレンダー</h2>
+  <div id="calendar"></div>
 
   <audio id="alarm">
     <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
@@ -30,3 +40,6 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+
+  
