@@ -1,16 +1,37 @@
 body {
   font-family: sans-serif;
   text-align: center;
-  margin-top: 50px;
-}
-
-input, button {
-  font-size: 16px;
-  margin: 10px;
 }
 
 #countdown {
   font-size: 48px;
   color: #e63946;
 }
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 700px;
+  margin: 20px auto;
+}
+
+.day {
+  border: 1px solid #ccc;
+  min-height: 100px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+.day strong {
+  display: block;
+}
+
+.study-log {
+  background: #eaf4ff;
+  margin-top: 4px;
+  padding: 2px;
+  border-radius: 4px;
+}
+
 
