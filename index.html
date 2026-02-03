@@ -1,1 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>勉強タイマー</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>📚 勉強時間管理アプリ</h1>
 
+  <label>
+    勉強開始時間：
+    <input type="datetime-local" id="startTime">
+  </label>
+
+  <label>
+    勉強時間（分）：
+    <input type="number" id="duration" value="25">
+  </label>
+
+  <button id="setTimer">タイマーを設定</button>
+
+  <h2 id="status">未設定</h2>
+  <h2 id="countdown">00:00</h2>
+
+  <audio id="alarm">
+    <source src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg">
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
