@@ -1,54 +1,72 @@
-body {
-  font-family: sans-serif;
-  background: #f4f6f8;
-  padding: 20px;
+const dateInput = document.getElementById("date");
+const subjectInput = document.getElementById("subject");
+const minutesInput = document.getElementById("minutes");
+const saveBtn = document.getElementById("saveBtn");
+const calendar = document.getElementById("calendar");
+
+const alarmTimeInput = document.getElementById("alarmTime");
+const alarmBtn = document.getElementById("alarmBtn");
+const canon = document.getElementById("canon");
+
+let studyData = JSON.parse(localStorage.getItem("studyData")) || {};
+
+// カレンダー描画
+function renderCalendar() {
+  calendar.innerHTML = "";
+
+  Object.keys(studyData).sort().forEach(date => {
+    const dayDiv = document.createElement("div");
+    dayDiv.className = "day";
+
+    let html = `<strong>${date}</strong>`;
+    studyData[date].forEach(item => {
+      html += `${item.subject}：${item.minutes}分<br>`;
+    });
+
+    dayDiv.innerHTML = html;
+    calendar.appendChild(dayDiv);
+  });
 }
 
-h1 {
-  text-align: center;
-}
+// 保存処理
+saveBtn.addEventListener("click", () => {
+  const date = dateInput.value;
+  const subject = subjectInput.value;
+  const minutes = minutesInput.value;
 
-.input-area,
-.alarm-area {
-  background: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  max-width: 400px;
-  margin: 0 auto 20px;
-}
+  if (!date || !subject || !minutes) {
+    alert("すべて入力してください");
+    return;
+  }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-}
+  if (!studyData[date]) {
+    studyData[date] = [];
+  }
 
-input {
-  width: 100%;
-  margin-top: 4px;
-}
+  studyData[date].push({ subject, minutes });
 
-button {
-  margin-top: 10px;
-  width: 100%;
-  padding: 8px;
-  cursor: pointer;
-}
+  localStorage.setItem("studyData", JSON.stringify(studyData));
 
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 10px;
-}
+  renderCalendar();
 
-.day {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 8px;
-  font-size: 12px;
-}
+  subjectInput.value = "";
+  minutesInput.value = "";
+});
 
-.day strong {
-  display: block;
-  margin-bottom: 4px;
-}
+// アラーム設定
+alarmBtn.addEventListener("click", () => {
+  const time = alarmTimeInput.value;
+  if (!time) return;
+
+  const [alarmH, alarmM] = time.split(":").map(Number);
+
+  setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === alarmH && now.getMinutes() === alarmM) {
+      canon.play();
+    }
+  }, 1000);
+});
+
+// 初期表示
+renderCalendar();
