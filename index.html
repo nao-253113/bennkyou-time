@@ -1,112 +1,45 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>勉強時間管理カレンダー</title>
-<style>
-body {
-  font-family: sans-serif;
-  background: #f5f5f5;
-  padding: 20px;
-}
-h1 {
-  text-align: center;
-}
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin-top: 20px;
-}
-.day {
-  background: white;
-  border: 1px solid #ccc;
-  min-height: 100px;
-  padding: 5px;
-  font-size: 12px;
-}
-.day strong {
-  display: block;
-}
-input, button {
-  margin: 5px 0;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>勉強時間管理カレンダー</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<h1>📚 勉強時間管理</h1>
+  <h1>📚 勉強時間管理</h1>
 
-<label>日付:
-  <input type="date" id="date">
-</label><br>
+  <div class="input-area">
+    <label>
+      日付：
+      <input type="date" id="date">
+    </label>
 
-<label>教科:
-  <input type="text" id="subject">
-</label><br>
+    <label>
+      教科：
+      <input type="text" id="subject">
+    </label>
 
-<label>勉強時間（分）:
-  <input type="number" id="minutes">
-</label><br>
+    <label>
+      勉強時間（分）：
+      <input type="number" id="minutes">
+    </label>
 
-<button onclick="saveStudy()">保存</button>
+    <button id="saveBtn">保存</button>
+  </div>
 
-<hr>
+  <hr>
 
-<h3>⏰ アラーム設定</h3>
-<input type="time" id="alarmTime">
-<button onclick="setAlarm()">アラームセット</button>
+  <div class="alarm-area">
+    <h3>⏰ アラーム設定</h3>
+    <input type="time" id="alarmTime">
+    <button id="alarmBtn">アラームセット</button>
+  </div>
 
-<div class="calendar" id="calendar"></div>
+  <div class="calendar" id="calendar"></div>
 
-<audio id="canon" src="canon.mp3"></audio>
+  <audio id="canon" src="canon.mp3"></audio>
 
-<script>
-const calendar = document.getElementById("calendar");
-const studyData = JSON.parse(localStorage.getItem("studyData") || "{}");
-
-function renderCalendar() {
-  calendar.innerHTML = "";
-  for (const date in studyData) {
-    const div = document.createElement("div");
-    div.className = "day";
-    div.innerHTML = `<strong>${date}</strong>` +
-      studyData[date].map(d =>
-        `${d.subject}：${d.minutes}分`
-      ).join("<br>");
-    calendar.appendChild(div);
-  }
-}
-
-function saveStudy() {
-  const date = document.getElementById("date").value;
-  const subject = document.getElementById("subject").value;
-  const minutes = document.getElementById("minutes").value;
-
-  if (!date || !subject || !minutes) return alert("全部入力してね");
-
-  if (!studyData[date]) studyData[date] = [];
-  studyData[date].push({ subject, minutes });
-
-  localStorage.setItem("studyData", JSON.stringify(studyData));
-  renderCalendar();
-}
-
-function setAlarm() {
-  const alarmTime = document.getElementById("alarmTime").value;
-  if (!alarmTime) return;
-
-  const [h, m] = alarmTime.split(":").map(Number);
-
-  setInterval(() => {
-    const now = new Date();
-    if (now.getHours() === h && now.getMinutes() === m) {
-      document.getElementById("canon").play();
-    }
-  }, 1000);
-}
-
-renderCalendar();
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
